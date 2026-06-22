@@ -11,7 +11,10 @@
   "dependsOn": [
     "d2"
   ],
-  "rationale": "Open decisions surface two ways: a 'Needs deciding' group pinned above the list and an 'Open' filter chip by search; both vanish when nothing is open. A review-first tool shouldn't make you hunt for what's still undecided.",
+  "history": [
+    { "from": "The pinned group was labeled 'Needs deciding'", "reason": "Renamed the pinned group to 'Open' so it matches the 'Open' filter chip and the decision's open/decided language — one word for the same idea everywhere", "date": "2026-06-22T14:21:26" }
+  ],
+  "rationale": "Open decisions surface two ways: an 'Open' group pinned above the list and an 'Open' filter chip by search; both vanish when nothing is open. A review-first tool shouldn't make you hunt for what's still undecided.",
   "options": [
     {
       "id": "o13a",

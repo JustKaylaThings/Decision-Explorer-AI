@@ -591,13 +591,13 @@ function buildList(){
 
   if (openOnly){
     const items = RAW.filter(d => isOpen(d) && passes(d)).sort(byRecency);
-    root.innerHTML = items.length ? sectionHTML('Needs deciding', 'var(--neg)', items, true)
+    root.innerHTML = items.length ? sectionHTML('Open', 'var(--neg)', items, true)
       : '<div class="empty-state">No open decisions'+(filter?' match “'+esc(filter)+'”':'')+'.</div>';
     return;
   }
 
   const pinned = RAW.filter(d => isOpen(d) && passes(d));
-  let html = pinned.length ? sectionHTML('Needs deciding', 'var(--neg)', pinned, true) : '';
+  let html = pinned.length ? sectionHTML('Open', 'var(--neg)', pinned, true) : '';
   let body = '';
 
   if (sortMode === 'recent'){
