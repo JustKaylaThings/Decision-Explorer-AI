@@ -146,6 +146,13 @@ personalize your explorer:
   Then decisions can carry an `area` value (Claude sets this when you mention which screen/module a
   decision belongs to).
 
+- **Hide the "Get the free template" link** *(optional)* — the top bar links back here so people can
+  find the tool. In your own explorer you can turn it off:
+
+  ```json
+  { "project": "My App — Decisions", "hideTemplateLink": true }
+  ```
+
 ## Open the viewer
 
 First **build the viewer** from the decision files (in your own project, `/decision-tree view` does

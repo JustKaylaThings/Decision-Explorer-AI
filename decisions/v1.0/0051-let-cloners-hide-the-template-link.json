@@ -1,0 +1,73 @@
+{
+  "id": "d51",
+  "title": "Let cloners hide the template link",
+  "category": "Visualization",
+  "phase": "Design",
+  "type": "technical",
+  "date": "2026-06-22T16:31:33",
+  "version": "1.0",
+  "question": "Can a cloned project remove the 'Get the free template' link from its viewer?",
+  "status": "decided",
+  "dependsOn": [
+    "d46"
+  ],
+  "rationale": "Add a per-project _project.json flag, hideTemplateLink, that removes the 'Get the free template' button from the top bar. Default stays shown, so a published explorer still points people back to the tool (d46); someone using the skill in their own project can opt out so their explorer doesn't advertise it. Reuses the existing _project.json personalization channel (name, icon), so it's one small field, not a new mechanism.",
+  "options": [
+    {
+      "id": "o51a",
+      "label": "Per-project flag, default shown",
+      "chosen": true,
+      "tradeoffs": [
+        {
+          "criterion": "fits everyone who installs",
+          "sentiment": "+",
+          "note": "cloners turn it off in their own projects; the maker's published explorer keeps it on"
+        },
+        {
+          "criterion": "build effort",
+          "sentiment": "+",
+          "note": "one optional field on _project.json, read where name and icon already are"
+        },
+        {
+          "criterion": "spreads the tool",
+          "sentiment": "~",
+          "note": "still on by default, so the promo survives unless a project explicitly opts out"
+        }
+      ]
+    },
+    {
+      "id": "o51b",
+      "label": "Always show it (status quo)",
+      "chosen": false,
+      "tradeoffs": [
+        {
+          "criterion": "spreads the tool",
+          "sentiment": "+",
+          "note": "every explorer links back, maximum reach"
+        },
+        {
+          "criterion": "fits everyone who installs",
+          "sentiment": "-",
+          "note": "a cloner's own explorer advertises someone else's repo with no way to remove it"
+        }
+      ]
+    },
+    {
+      "id": "o51c",
+      "label": "Make the whole top bar configurable",
+      "chosen": false,
+      "tradeoffs": [
+        {
+          "criterion": "flexibility",
+          "sentiment": "+",
+          "note": "users could set their own wordmark and link target, not just hide it"
+        },
+        {
+          "criterion": "build effort",
+          "sentiment": "-",
+          "note": "more schema and rendering for a need no one has yet; hiding covers the actual ask"
+        }
+      ]
+    }
+  ]
+}

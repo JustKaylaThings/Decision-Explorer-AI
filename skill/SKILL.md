@@ -209,7 +209,7 @@ Report the output path; the user opens it in a browser.
 `decisions/_project.json`:
 
 ```json
-{ "project": "string", "secondaryAxis": "string (optional, e.g. \"Screen\")", "icon": "string (optional; path to an app icon in decisions/, e.g. \"icon.png\")" }
+{ "project": "string", "secondaryAxis": "string (optional, e.g. \"Screen\")", "icon": "string (optional; path to an app icon in decisions/, e.g. \"icon.png\")", "hideTemplateLink": "boolean (optional; true hides the \"Get the free template\" link in the viewer's top bar)" }
 ```
 
 Each `decisions/NNNN-slug.json` is a single decision object (no wrapper array):

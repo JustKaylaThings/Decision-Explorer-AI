@@ -631,7 +631,7 @@ async function loadData(){
   const decisions = (await Promise.all(
     names.map(n => fetch(n).then(r => r.ok ? r.json() : null).catch(() => null))
   )).filter(Boolean);
-  return { project: proj.project || 'Decisions', axis: proj.secondaryAxis || '', icon: proj.icon || '', decisions, expected: names.length };
+  return { project: proj.project || 'Decisions', axis: proj.secondaryAxis || '', icon: proj.icon || '', hideTemplateLink: !!proj.hideTemplateLink, decisions, expected: names.length };
 }
 function showLoadError(){
   const hs = document.getElementById('heroSub'); if (hs) hs.textContent = '';
@@ -649,6 +649,8 @@ async function init(){
   PROJECT = data.project; AXIS = data.axis; RAW = data.decisions;
   setHeader();
   resolveAppIcon(data.icon);
+  // Let a cloned project hide the "Get the free template" promo via _project.json (d51).
+  if (data.hideTemplateLink){ const tl = document.getElementById('templateLink'); if (tl) tl.remove(); }
   // Build the Sort menu — "By <axis>" (d26) and "By version" (d36) entries appear only when they apply.
   buildSortMenu();
   buildList();
