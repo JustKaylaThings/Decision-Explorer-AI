@@ -18,11 +18,15 @@
 </script>
 </head>
 <body>
-<div class="topbtns">
-  <button class="iconbtn" id="theme" title="Toggle light/dark">&#9728;</button>
-  <button class="iconbtn" id="help" title="Keyboard shortcuts (Cmd+?)">?</button>
-</div>
 <main>
+  <header class="topbar">
+    <span class="topbar-brand">Decision Explorer</span>
+    <nav class="topbar-right" aria-label="Top">
+      <a class="topbar-cta" href="https://github.com/JustKaylaThings/Decision-Explorer" target="_blank" rel="noopener">Get the free template</a>
+      <button class="iconbtn" id="theme" title="Toggle light/dark">&#9728;</button>
+      <button class="iconbtn" id="help" title="Keyboard shortcuts (Cmd+?)">?</button>
+    </nav>
+  </header>
   <section class="hero">
     <div class="hero-name">
       <img class="app-icon hero-icon" alt="" hidden>
@@ -63,6 +67,16 @@
   </div>
   <div id="list"></div>
 </main>
+<footer class="site-foot">
+  <span class="foot-credit">Decision Explorer &middot; Made by <strong>Kayla Jones</strong></span>
+  <nav class="foot-links" aria-label="Links">
+    <a href="https://github.com/JustKaylaThings" target="_blank" rel="noopener">GitHub</a>
+    <span class="foot-dot" aria-hidden="true">&middot;</span>
+    <a href="https://www.linkedin.com/in/kaylamichjones/" target="_blank" rel="noopener">LinkedIn</a>
+    <span class="foot-dot" aria-hidden="true">&middot;</span>
+    <a href="https://kayjo.co" target="_blank" rel="noopener">Website</a>
+  </nav>
+</footer>
 <div id="filterDrawer" class="drawer" role="dialog" aria-modal="true" aria-label="Filter decisions">
   <aside class="drawer-card">
     <header class="drawer-head">

@@ -1,0 +1,73 @@
+{
+  "id": "d45",
+  "title": "Creator credit in the viewer",
+  "category": "Visualization",
+  "phase": "Design",
+  "type": "technical",
+  "date": "2026-06-22T14:42:37",
+  "version": "1.0",
+  "question": "How should the maker's name and links appear in the decision explorer?",
+  "status": "decided",
+  "dependsOn": [
+    "d28"
+  ],
+  "rationale": "Add a calm centered footer ('Made by Kayla Jones' + GitHub/LinkedIn/Website) under the list, with the links hardcoded. Because the viewer is one shared template (d28), the credit shows in every project's explorer for anyone who installs the skill - which is the intent: it's creator attribution for a tool being published. A footer was chosen over a top bar so it stays out of the way and fits the calm aesthetic.",
+  "options": [
+    {
+      "id": "o45a",
+      "label": "Footer credit, links hardcoded",
+      "chosen": true,
+      "tradeoffs": [
+        {
+          "criterion": "fits the aesthetic",
+          "sentiment": "+",
+          "note": "slim centered line with a hairline top border, out of the way; mirrors the README link row"
+        },
+        {
+          "criterion": "build effort",
+          "sentiment": "+",
+          "note": "static HTML/CSS in the shared template; nothing to plumb through the data"
+        },
+        {
+          "criterion": "fits everyone who installs",
+          "sentiment": "~",
+          "note": "shared template (d28) means the maker's links show in every installer's explorer, not just their own projects - acceptable as attribution for a published tool"
+        }
+      ]
+    },
+    {
+      "id": "o45b",
+      "label": "Top bar above the hero",
+      "chosen": false,
+      "tradeoffs": [
+        {
+          "criterion": "prominence",
+          "sentiment": "+",
+          "note": "first thing seen, mirrors the README placement"
+        },
+        {
+          "criterion": "fits the aesthetic",
+          "sentiment": "-",
+          "note": "adds a header the calm one-screen app deliberately doesn't have"
+        }
+      ]
+    },
+    {
+      "id": "o45c",
+      "label": "Configurable per project via _project.json",
+      "chosen": false,
+      "tradeoffs": [
+        {
+          "criterion": "fits everyone who installs",
+          "sentiment": "+",
+          "note": "each user sets their own author block; the maker's links show only in the maker's projects"
+        },
+        {
+          "criterion": "build effort",
+          "sentiment": "-",
+          "note": "new author schema in _project.json plus rendering plumbing through the generator and viewer"
+        }
+      ]
+    }
+  ]
+}

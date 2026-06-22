@@ -1,4 +1,4 @@
-# Decision Tree
+# Decision Explorer
 
 <p align="center">
   <a href="https://github.com/JustKaylaThings">GitHub</a> ·

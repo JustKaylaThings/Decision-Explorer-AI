@@ -3,7 +3,7 @@ name: decision-tree
 description: Log decisions and their tradeoffs explicitly, render them as an interactive decision-explorer HTML viewer, and consult past decisions before planning a new feature. Use when the user wants to capture a decision (with options + tradeoffs), revise a past decision, view the decision graph, or weigh a new feature against existing decisions. Triggered by /decision-tree or phrases like "log this decision", "add a decision", "show the decision tree/graph", "plan a feature", "how does this fit", "what decisions affect X".
 ---
 
-# Decision Tree
+# Decision Explorer
 
 Capture decisions — with their options and per-option tradeoffs — and render an interactive
 **decision explorer** (master–detail drawer): a calm, searchable left list of one-line decisions

@@ -29,7 +29,15 @@ body { background:var(--bg); color:var(--ink);
 body.no-scroll { overflow:hidden; }
 
 /* ---- floating top buttons (theme + help) ---- */
-.topbtns { position:absolute; top:14px; right:18px; z-index:30; display:flex; gap:8px; }
+/* top bar — product wordmark + free-template CTA, with the icon buttons folded in */
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 0 0; }
+.topbar-brand { font-size:15px; font-weight:600; letter-spacing:-.01em; color:var(--ink); }
+.topbar-right { display:flex; align-items:center; gap:9px; }
+.topbar-cta { font-size:13px; font-weight:500; color:var(--accent); text-decoration:none; white-space:nowrap;
+              padding:6px 13px; border:1px solid var(--line2); border-radius:980px;
+              transition:background .15s ease, border-color .15s ease; }
+.topbar-cta:hover { background:var(--accent-soft); border-color:var(--accent); }
+@media (max-width:680px){ .topbar-brand { font-size:14px; } .topbar-cta { padding:5px 10px; } }
 .app-icon { border-radius:6px; object-fit:cover; flex:none; }
 .app-icon[hidden] { display:none; }
 .tab { font-size:12.5px; font-weight:500; padding:6px 14px; border-radius:980px; border:none;
@@ -42,7 +50,18 @@ body.no-scroll { overflow:hidden; }
 .iconbtn:hover { color:var(--ink); background:var(--line2); }
 
 /* ---- page ---- */
-main { max-width:1160px; margin:0 auto; padding:0 32px 120px; }
+main { max-width:1160px; margin:0 auto; padding:0 32px 72px; }
+
+/* creator credit — calm centered footer, mirrors the README's link row */
+.site-foot { max-width:1160px; margin:0 auto; padding:26px 32px 48px; border-top:1px solid var(--line);
+             display:flex; flex-direction:column; align-items:center; gap:7px; text-align:center; }
+.foot-credit { font-size:13px; color:var(--faint); letter-spacing:-.01em; }
+.foot-credit strong { font-weight:600; color:var(--ink2); }
+.foot-links { display:flex; align-items:center; gap:11px; font-size:13px; }
+.foot-links a { color:var(--muted); text-decoration:none; transition:color .15s ease; }
+.foot-links a:hover { color:var(--accent); }
+.foot-dot { color:var(--line2); }
+@media (max-width:680px){ .site-foot { padding:22px 18px 36px; } }
 
 /* control bar above the list — sticks under the nav; search is the prominent element */
 .toolbar { position:sticky; top:0; z-index:15; display:flex; align-items:center; flex-wrap:wrap;
@@ -133,7 +152,7 @@ main { max-width:1160px; margin:0 auto; padding:0 32px 120px; }
 }
 
 /* hero */
-.hero { text-align:center; padding:72px 0 16px; }
+.hero { text-align:center; padding:48px 0 16px; }
 .hero-name { display:flex; align-items:center; justify-content:center; gap:clamp(12px,2vw,20px); }
 .hero-icon { width:clamp(46px,7vw,72px); height:clamp(46px,7vw,72px); border-radius:20px; box-shadow:var(--shadow-card); }
 .hero h1 { font-size:clamp(40px,7vw,80px); font-weight:700; letter-spacing:-.035em; line-height:1.03; margin:0; }
