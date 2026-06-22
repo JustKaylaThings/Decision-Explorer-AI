@@ -1,0 +1,43 @@
+{
+  "id": "d38",
+  "title": "Showing revisions as their own cards",
+  "category": "Visualization",
+  "phase": "Design",
+  "type": "technical",
+  "date": "2026-06-22T13:00:51",
+  "version": "1.0",
+  "question": "How can you see every revision a decision went through without opening the decision and scrolling to its history?",
+  "status": "decided",
+  "dependsOn": ["d2", "d7", "d9"],
+  "rationale": "In the Recent view, each revision shows as its own slim card at the moment it happened, alongside the decision's creation card — so the timeline shows every change as a distinct event. The revision card links back to its decision and opens straight to the history. Chosen because it answers 'what changed and when' at a glance without duplicating data: the decision file's history list stays the single source of truth.",
+  "options": [
+    {
+      "id": "o38a",
+      "label": "Each revision is its own card in Recent, linked to the decision",
+      "chosen": true,
+      "tradeoffs": [
+        { "criterion": "fits review goal", "sentiment": "+", "note": "every change is a visible event in the timeline, not buried at the bottom of a decision" },
+        { "criterion": "build effort", "sentiment": "+", "note": "revision cards are built from the existing history list at view time — no change to how decisions are stored" },
+        { "criterion": "clutter", "sentiment": "~", "note": "scoped to the Recent stream; the By phase / version / area groupings keep one card per decision with a 'revised' badge, so they don't double up" }
+      ]
+    },
+    {
+      "id": "o38b",
+      "label": "Promote each revision to a full decision record",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "fits review goal", "sentiment": "+", "note": "revisions become first-class, searchable entries" },
+        { "criterion": "build effort", "sentiment": "-", "note": "duplicates data and breaks the 'a revision edits the one decision file' flow; two places to keep in sync" }
+      ]
+    },
+    {
+      "id": "o38c",
+      "label": "Keep revisions only inside the decision's detail (status quo)",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "clutter", "sentiment": "+", "note": "nothing new in the list" },
+        { "criterion": "fits review goal", "sentiment": "-", "note": "you must open a decision and scroll to the bottom to see what changed — the change isn't visible in the timeline" }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,7 @@
     "d6",
     "d2"
   ],
-  "rationale": "Stamp each decision with a date automatically and add a 'By stage / Recent' switch; stage grouping stays default (d6). 'Recent' sorts by last activity so a just-revised decision rises instead of staying buried under its original date.",
+  "rationale": "Stamp each decision with a date automatically and add a 'By stage / Recent' switch. 'Recent' sorts by last activity so a just-revised decision rises instead of staying buried under its original date — and Recent is now the default view, so the list opens on what changed most recently; By phase is one menu choice away.",
   "history": [
     {
       "from": "Recent sorted by original decision date only",
@@ -23,6 +23,11 @@
       "from": "The card and list row showed the original created date",
       "reason": "The card/row now shows the last-revised date (the same last-activity date the Recent sort uses), so the list reflects how current each decision is; the original created date still shows when you open the decision's detail.",
       "date": "2026-06-22T11:33:30"
+    },
+    {
+      "from": "By phase was the default list grouping; Recent was opt-in via the switch (d6 framework first)",
+      "reason": "Made Recent the default view so the list opens on what changed most recently — matching d18, which already opens the detail panel on the most-recent decision; By phase is now one choice away in the Sort menu (d30 revised)",
+      "date": "2026-06-22T12:42:26"
     }
   ],
   "options": [

@@ -12,7 +12,7 @@
     "d2",
     "d26"
   ],
-  "rationale": "Put all controls in one calm bar — search as the hero, plus a Sort / Filter / View pill cluster. The Filter button opens a drawer (open-only, categories, second dimension) with a count badge. Chosen over always-visible chips, which cluttered as categories grew, and search-only, which couldn't focus one category.",
+  "rationale": "Put all controls in one calm bar — search as the hero, plus Sort / Filter / View on the right. The Filter button opens a drawer (open-only, categories, second dimension) with a count badge. Chosen over always-visible chips, which cluttered as categories grew, and search-only, which couldn't focus one category. Sort is now a dropdown menu (not a pill row), so the grouping choices stay collapsed as they multiply.",
   "history": [
     {
       "from": "Controls split across the bar — the By phase / Recent switch on the far left, a width-capped search in the middle, Filter and a lone view icon on the right",
@@ -28,6 +28,11 @@
       "from": "Clear filters was a faint text link at the end of the scrolling filter list, easy to miss below the fold",
       "reason": "Pinned Clear filters to a bordered button in a footer fixed at the bottom of the drawer (showing the active count, e.g. \"Clear filters (3)\"), so it stays visible no matter how far the list scrolls",
       "date": "2026-06-22T11:07:58"
+    },
+    {
+      "from": "Sort was a segmented pill cluster — Recent · By phase, with By <axis> and By version appended as more pills — sitting beside Filter and View",
+      "reason": "Collapsed Sort into a single dropdown button that opens a popover menu, so the grouping choices stay tidy as they grow (up to four: Recent, By phase, By <axis>, By version) instead of widening the bar; the button now shows the active mode as its label",
+      "date": "2026-06-22T12:42:26"
     }
   ],
   "options": [
