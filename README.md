@@ -18,9 +18,9 @@ options × tradeoffs comparison, and a timeline of how it changed over time.
 No build step, no dependencies beyond **Python 3** — the viewer is plain HTML/CSS/JS and works fully
 offline.
 
-<!-- Add a viewer screenshot at docs/viewer.png, then uncomment the line below to show it.
-![The decision explorer](docs/viewer.png)
--->
+<p align="center">
+  <img src="docs/viewer.png" alt="The Decision Explorer viewer — a searchable list of decisions grouped by recency, with cards showing each decision's chosen option" width="900">
+</p>
 
 ## Quickstart (30 seconds)
 
