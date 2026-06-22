@@ -1,5 +1,11 @@
 # Decision Tree
 
+<p align="center">
+  <a href="https://github.com/JustKaylaThings">GitHub</a> ·
+  <a href="https://www.linkedin.com/in/kaylamichjones/">LinkedIn</a> ·
+  <a href="https://kayjo.co">Website</a>
+</p>
+
 A [Claude Code](https://claude.com/claude-code) skill that captures the **decisions** behind a
 project — each with the options you weighed, their tradeoffs, what you chose and why — and renders
 them as an interactive, offline **decision explorer** you open in any browser.
@@ -11,6 +17,20 @@ options × tradeoffs comparison, and a timeline of how it changed over time.
 
 No build step, no dependencies beyond **Python 3** — the viewer is plain HTML/CSS/JS and works fully
 offline.
+
+<!-- Add a viewer screenshot at docs/viewer.png, then uncomment the line below to show it.
+![The decision explorer](docs/viewer.png)
+-->
+
+## Quickstart (30 seconds)
+
+1. **Install** — copy the skill into Claude Code (one-time, see [Install](#install-once) below).
+2. **Log a decision** — in any project, run `/decision-tree add` and tell Claude what you decided;
+   it drafts the options and tradeoffs, you confirm, it writes the file.
+3. **See it** — run `/decision-tree view`, then serve the `decisions/` folder and open it in your
+   browser (see [Open the viewer](#open-the-viewer)).
+
+That's the whole loop: decide → confirm → explore. Everything below is detail.
 
 ## What's in this repo
 
@@ -85,9 +105,11 @@ The files in `skill/` are **copies** of the live skill at `~/.claude/skills/deci
 improve the viewer or `SKILL.md`, re-copy them here before sharing:
 
 ```sh
-cp ~/.claude/skills/decision-tree/SKILL.md skill/SKILL.md
-cp ~/.claude/skills/decision-tree/generate.py skill/generate.py
-cp ~/.claude/skills/decision-tree/viewer/* skill/viewer/
+cp ~/.claude/skills/decision-tree/SKILL.md      skill/SKILL.md
+cp ~/.claude/skills/decision-tree/consulting.md skill/consulting.md
+cp ~/.claude/skills/decision-tree/auditing.md   skill/auditing.md
+cp ~/.claude/skills/decision-tree/generate.py   skill/generate.py
+cp ~/.claude/skills/decision-tree/viewer/*      skill/viewer/
 ```
 
 ## Requirements

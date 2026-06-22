@@ -52,23 +52,27 @@ decisions it **dependsOn**, and any it conflicts with or supersedes. Relationshi
 Produce the briefing below. Do not create or edit any decision file at this step.
 
 ## Briefing format
-A sensible default; adapt to the feature:
+Keep it **lean** — this is a scan, not a memo. Four sections, every entry **one line**, no
+paragraphs. Cap each list at the 2–3 bullets that actually matter; drop a section entirely if it's
+empty (don't write "none" filler). Lead each related/constraint bullet with the id or criterion so
+the eye lands on it. Total briefing should fit on a screen without scrolling.
 
 ```markdown
-**Related decisions**
-- <id> <title> — chosen: <option>. Why it matters here: <one line>.
-- …
+**Related**
+- <id> <title> — chosen: <option> · matters here: <≤6 words>
 
-**Constraints & tradeoffs that bear on this**
-- <criterion> — <what it implies for the feature>
+**Constraints**
+- <criterion> — <≤8 words on what it implies>
 
 **Where it fits**
-- Phase: <phase> · Category: <category> · Depends on: <ids>
-- Conflicts / supersedes: <id + plain note>, or "none"
+<Phase> · <Category> · deps <ids> · conflicts <id> (or omit the conflict clause)
 
-**Recommendation**
-<1–3 sentences: whether to do it, where it fits, what to watch.>
+**Call**
+<1 sentence: build it or not + the single thing to watch.>
 ```
+
+Skip the **Constraints** section when nothing material bears on the feature; never pad a section to
+look complete. Prose around the block (extra caveats, alternatives) belongs *after* it, not inside.
 
 ## Handing off to capture
 If the user then decides to build it, capture it with `add` (confirm-at-the-moment): draft the new
