@@ -106,7 +106,7 @@ function setHeader(){
   const hs = document.getElementById('heroSub');
   if (!hs) return;
   if (!logged){ hs.textContent = 'No decisions logged yet'; return; }
-  const parts = [logged + ' logged'];
+  const parts = [logged + ' created'];
   if (revisions) parts.push(revisions + ' revision' + (revisions===1?'':'s'));
   if (openN) parts.push(openN + ' open');
   if (unbuiltN) parts.push(unbuiltN + ' not built');
@@ -278,7 +278,7 @@ function buildList(){
     let only = '';
     if (openOnly){
       const items = RAW.filter(d => isOpen(d) && passes(d)).sort(byRecency);
-      if (items.length) only += sectionHTML('Needs deciding', 'var(--neg)', items, 'pinned');
+      if (items.length) only += sectionHTML('Open', 'var(--neg)', items, 'pinned');
     }
     if (builtOnly){
       const items = RAW.filter(d => isUnbuilt(d) && passes(d)).sort(byRecency);
@@ -293,7 +293,7 @@ function buildList(){
   // (unbuilt, d43) is always in view; each hides when its group is empty.
   const pinnedOpen = RAW.filter(d => isOpen(d) && passes(d));
   const pinnedUnbuilt = RAW.filter(d => isUnbuilt(d) && passes(d));
-  let html = (pinnedOpen.length ? sectionHTML('Needs deciding', 'var(--neg)', pinnedOpen, 'pinned') : '')
+  let html = (pinnedOpen.length ? sectionHTML('Open', 'var(--neg)', pinnedOpen, 'pinned') : '')
            + (pinnedUnbuilt.length ? sectionHTML('Not built yet', 'var(--build)', pinnedUnbuilt, 'pinned pinned-build') : '');
   let body = '';
 

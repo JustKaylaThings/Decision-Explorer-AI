@@ -9,7 +9,10 @@
   "question": "What should the decision count at the top of the viewer count?",
   "status": "decided",
   "dependsOn": ["d38", "d7"],
-  "rationale": "Headline the true total of decisions made — every logged decision plus every revision counts as a decision that was made (d38) — then break it down on a second line: '60 decisions made / 38 logged · 22 revisions · 1 open'. Chosen because the old top line counted only created decisions, so it undercounted the work; the breakdown keeps it honest about what's a revision.",
+  "history": [
+    { "from": "Breakdown line read 'N logged' for the created-decision count", "reason": "Renamed the count to 'N created' — plainer than 'logged' for a non-technical reader, and clearer that it's the count of decisions created (vs revisions)", "date": "2026-06-22T14:18:33" }
+  ],
+  "rationale": "Headline the true total of decisions made — every created decision plus every revision counts as a decision that was made (d38) — then break it down on a second line: '60 decisions made / 38 created · 22 revisions · 1 open'. Chosen because the old top line counted only created decisions, so it undercounted the work; the breakdown keeps it honest about what's a revision.",
   "options": [
     {
       "id": "o41a",
