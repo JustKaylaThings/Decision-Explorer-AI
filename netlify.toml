@@ -1,0 +1,10 @@
+# Netlify build config for the Decision Explorer viewer.
+#
+# The committed repo holds only the decision DATA (decisions/v1.0/*.json, _project.json,
+# icon.png) plus the generator (skill/generate.py). The viewer's index.html / app.js /
+# styles.css are gitignored — locally they're symlinks to a shared template, so they aren't
+# in the repo. This build regenerates them as real files from the embedded template, then
+# dereferences the symlinks so Netlify serves plain files from the publish directory.
+[build]
+  publish = "decisions"
+  command = "python3 skill/generate.py decisions && cd decisions && for f in index.html app.js styles.css; do cp -L \"$f\" \"$f.real\" && mv \"$f.real\" \"$f\"; done"
