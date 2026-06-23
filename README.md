@@ -20,12 +20,12 @@ No build step, no dependencies beyond **Python 3** — the viewer is plain HTML/
 offline.
 
 <p align="center">
-  <img src="docs/viewer.png" alt="The Decision Explorer AI viewer — a searchable list of decisions grouped by recency, with cards showing each decision's chosen option" width="900"><br>
+  <img src="docs/viewer.png?v=2" alt="The Decision Explorer AI viewer — a searchable list of decisions grouped by recency, with cards showing each decision's chosen option" width="900"><br>
   <em>Browse every decision, grouped by recency or lifecycle phase.</em>
 </p>
 
 <p align="center">
-  <img src="docs/viewer-detail.png" alt="A single decision opened — its chosen option, the reasoning, dependency links, and the full options-by-tradeoffs comparison" width="620"><br>
+  <img src="docs/viewer-detail.png?v=2" alt="A single decision opened — its chosen option, the reasoning, dependency links, and the full options-by-tradeoffs comparison" width="620"><br>
   <em>Open one to see the chosen option, the why, and the full options × tradeoffs comparison.</em>
 </p>
 
