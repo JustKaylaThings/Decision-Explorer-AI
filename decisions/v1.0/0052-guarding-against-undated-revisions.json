@@ -1,0 +1,73 @@
+{
+  "id": "d52",
+  "title": "Guarding against undated revisions",
+  "category": "Process",
+  "phase": "Maintenance",
+  "type": "general",
+  "date": "2026-06-23T10:00:48",
+  "version": "1.0",
+  "question": "How should the tool stop a revision from being logged without a date, which hides the change from the Recent view?",
+  "status": "decided",
+  "dependsOn": [
+    "d7"
+  ],
+  "rationale": "A revision was once logged without a date, so Recent (which sorts by last activity, d7) fell back to the original decision date and the change never appeared in the 'Last 24 hours' bucket. Prevention is layered: SKILL.md and the Stop-hook backstop instruction both now require appending {from, reason, date} to history[], and generate.py prints a non-fatal warning when a decision's NEWEST history entry lacks a date. Keying the guard to only the newest entry catches the real failure mode on the next regenerate without nagging about old pre-timestamp entries (d2, d5) and without blocking a build or inventing dates for historical entries.",
+  "options": [
+    {
+      "id": "o52a",
+      "label": "Non-fatal warning in generate.py, keyed to the newest history entry",
+      "chosen": true,
+      "tradeoffs": [
+        {
+          "criterion": "catches the real failure",
+          "sentiment": "+",
+          "note": "the exact case that broke (newest revision undated) is surfaced on the very next regenerate"
+        },
+        {
+          "criterion": "disruption",
+          "sentiment": "+",
+          "note": "never blocks a build, and doesn't nag about old pre-timestamp entries since only the newest entry is checked"
+        },
+        {
+          "criterion": "strength",
+          "sentiment": "~",
+          "note": "a printed warning can be scrolled past; relies on the layered SKILL.md + hook instructions as the first line of defence"
+        }
+      ]
+    },
+    {
+      "id": "o52b",
+      "label": "Hard-fail the build if any history entry lacks a date",
+      "chosen": false,
+      "tradeoffs": [
+        {
+          "criterion": "strength",
+          "sentiment": "+",
+          "note": "strongest guarantee — a missing date cannot ship at all"
+        },
+        {
+          "criterion": "disruption",
+          "sentiment": "-",
+          "note": "blocks regeneration, and would flag the old pre-timestamp entries (d2, d5) unless specially exempted"
+        }
+      ]
+    },
+    {
+      "id": "o52c",
+      "label": "Doc-only — rely on SKILL.md and the hook instruction",
+      "chosen": false,
+      "tradeoffs": [
+        {
+          "criterion": "simplicity",
+          "sentiment": "+",
+          "note": "no generator code to maintain"
+        },
+        {
+          "criterion": "catches the real failure",
+          "sentiment": "-",
+          "note": "no mechanical net — which is exactly what already failed once when the hook instruction omitted the date"
+        }
+      ]
+    }
+  ]
+}
