@@ -1,22 +1,22 @@
 {
-  "id": "d10",
+  "id": "d10.1",
   "title": "How decisions are saved on disk",
   "category": "Architecture",
   "phase": "Implementation",
   "type": "technical",
-  "date": "2026-06-19T16:47:03",
   "version": "1.0",
   "question": "How should decisions be stored — in one big growing file, or split into many?",
   "status": "decided",
-  "dependsOn": [
-    "d8"
+  "supersedes": [
+    "d10"
   ],
-  "rationale": "Store each decision as its own small JSON file in a single flat folder, so every decision is a small readable file and the set scales past one giant growing file.",
+  "date": "2026-06-22T12:05:04",
+  "rationale": "Moved each decision into a sub-folder named for the app version it shipped in (decisions/v1.0/…), flat within each version, so a release's decisions can be browsed as a folder. The earlier no-folders choice avoided a tree that drifts when labels change (o10c) — but versions don't drift, a released version is fixed, so that objection doesn't apply. The version field (d36) remains the source of truth; the folder mirrors it and global numbering is unchanged.",
   "options": [
     {
       "id": "o10d",
       "label": "Sub-folders by version, flat within each",
-      "chosen": false,
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "feels organized",
@@ -43,7 +43,7 @@
     {
       "id": "o10a",
       "label": "One small file per decision in one flat folder",
-      "chosen": true,
+      "chosen": false,
       "tradeoffs": [
         {
           "criterion": "editing & comparing",

@@ -1,21 +1,21 @@
 {
-  "id": "d5",
+  "id": "d5.1",
   "title": "Showing links between decisions",
   "category": "Visualization",
-  "version": "1.0",
   "phase": "Design",
   "type": "technical",
+  "version": "1.0",
   "question": "How should the way one decision connects to another be shown?",
   "status": "decided",
-  "dependsOn": [
-    "d2"
+  "supersedes": [
+    "d5"
   ],
-  "rationale": "Show connections two ways — inline links inside each decision plus a separate optional map of the whole web — so reviewing stays central while the big picture is still available.",
+  "rationale": "The list-plus-panel viewer (d2) removed the map tab; connections now show as 'depends on' and 'affects' rows in the detail panel, so they're shown inline only.",
   "options": [
     {
       "id": "o5a",
-      "label": "Inline links, with transitive downstream impact",
-      "chosen": false,
+      "label": "Inline links (immediate neighbors only)",
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "fits review goal",
@@ -54,7 +54,7 @@
     {
       "id": "o5c",
       "label": "Both",
-      "chosen": true,
+      "chosen": false,
       "tradeoffs": [
         {
           "criterion": "fits review goal",

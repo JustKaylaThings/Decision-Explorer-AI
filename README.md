@@ -68,13 +68,17 @@ Copy the skill into your personal Claude Code skills folder:
 mkdir -p ~/.claude/skills/decision-tree
 cp -R skill/SKILL.md skill/generate.py skill/consulting.md skill/auditing.md skill/viewer \
       ~/.claude/skills/decision-tree/
+cp -R skill/decide ~/.claude/skills/decide
 ```
 
-That's it — `/decision-tree` is now available in Claude Code. (Restart Claude Code if it was open.)
+That's it — `/decision-tree` is now available in Claude Code (restart it if it was open). The second
+`cp` installs a tiny **`/decide`** alias alongside it, so you can type the shorter command (no need to
+spell "decision"); both names work interchangeably. Skip that line if you only want `/decision-tree`.
 
 ## Use it
 
-In any project, just tell Claude what you decided:
+In any project, just tell Claude what you decided (every `/decision-tree` command below can also be
+typed as `/decide` if you added the alias above):
 
 - `/decision-tree add` — log a new decision (Claude drafts title, options, tradeoffs, the choice and
   why, then writes it once you confirm)
@@ -201,6 +205,7 @@ cp ~/.claude/skills/decision-tree/consulting.md skill/consulting.md
 cp ~/.claude/skills/decision-tree/auditing.md   skill/auditing.md
 cp ~/.claude/skills/decision-tree/generate.py   skill/generate.py
 cp ~/.claude/skills/decision-tree/viewer/*      skill/viewer/
+cp ~/.claude/skills/decide/SKILL.md             skill/decide/SKILL.md
 ```
 
 ## Requirements

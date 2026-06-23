@@ -1,6 +1,6 @@
 ---
 name: decision-tree
-description: Log decisions and their tradeoffs explicitly, render them as an interactive decision-explorer HTML viewer, and consult past decisions before planning a new feature. Use when the user wants to capture a decision (with options + tradeoffs), revise a past decision, view the decision graph, or weigh a new feature against existing decisions. Triggered by /decision-tree or phrases like "log this decision", "add a decision", "show the decision tree/graph", "plan a feature", "how does this fit", "what decisions affect X".
+description: Log decisions and their tradeoffs explicitly, render them as an interactive decision-explorer HTML viewer, and consult past decisions before planning a new feature. Use when the user wants to capture a decision (with options + tradeoffs), revise a past decision, view the decision graph, or weigh a new feature against existing decisions. Triggered by /decision-tree or its alias /decide, or phrases like "log this decision", "add a decision", "show the decision tree/graph", "plan a feature", "how does this fit", "what decisions affect X".
 ---
 
 # Decision Explorer AI
@@ -28,6 +28,10 @@ Source of truth is **one file per decision** in `decisions/`:
   `version` sit at the `decisions/` root. **Numbering stays global** — `NNNN`/`id` are unique across
   all folders, never restarted per version. The folder only mirrors the `version` field, which stays
   the source of truth for grouping (d36); place a file in the folder matching its `version`.
+  **Revisions branch the id with a decimal (d55):** revising `d47` creates a *new* decision `d47.1`
+  (then `d47.2`, …) in its own version folder, filed as `NNNN-MM-slug.json` — the original's `NNNN`
+  plus a zero-padded revision count (e.g. `decisions/v1.1/0047-01-…` → `"id": "d47.1"`). The integer
+  is the lineage, the `.MM` the revision number; the original `d47` is **never moved or rewritten**.
 - `decisions/graph.html` — generated viewer (never hand-edit; auto-regenerated — see Rendering)
 - Generator: `.claude/skills/decision-tree/generate.py`
 
@@ -38,7 +42,8 @@ decision files.
 
 ## Subcommands
 
-The argument after `/decision-tree` selects the action. With no argument, infer intent.
+The argument after `/decision-tree` (or its shorthand alias `/decide`) selects the action.
+With no argument, infer intent.
 
 ### `add` — log a new decision
 1. Gather, asking only for what's missing (write every field to be **scanned**, not read — see Writing style):
@@ -73,6 +78,15 @@ The argument after `/decision-tree` selects the action. With no argument, infer 
      and tags the decision — all of which stay invisible while nothing is unbuilt (d43). It's separate
      from `status`: a decided-but-unbuilt decision is still `decided`, not `open`. When the user later
      says a decision is built/shipped, drop the flag and regenerate.
+   - optional **reviewBy** — set `"reviewBy": "YYYY-MM-DD"` (date only) for a decision made
+     **provisionally** — one you expect to revisit ("use SQLite *for now*, revisit at scale"; a
+     temporary workaround; a pinned version to re-test later). Only set it when the user signals a
+     decision is temporary or names a date to recheck — most decisions get none. Once the date
+     arrives, the viewer pins a "Due for review" group above the list, adds a "Due for review only"
+     filter, and tags the decision; before the date it shows a quiet "Review by …" note in the detail
+     panel. All of it stays invisible while no decision is due (d14, the optional-flag grammar of
+     `built`/`version`). When the user revisits it, `revise` the decision and drop or push out
+     `reviewBy`, then regenerate.
 2. Write a new file containing the decision object, with a fresh `id` (`d<N>`, where `N` is the next
    number across ALL folders) and matching `NNNN` (zero-padded `N`); option ids `o<N><a..>`. `slug`
    is the kebab-case title. Place it in `decisions/v<version>/NNNN-slug.json` when the decision has a
@@ -84,14 +98,23 @@ The argument after `/decision-tree` selects the action. With no argument, infer 
 4. Regenerate the viewer (see Rendering).
 
 ### `revise <id>` — change a past decision
-- Open that decision's file — `decisions/[v<version>/]NNNN-*.json`, where `NNNN` matches the `id`
-  (it lives in the version sub-folder if it has a `version`, else at the root; glob if unsure). Move
-  the old chosen option's choice into the decision's `history` array
-  (`{ "from": "<old option label>", "reason": "<why changed>", "date": "<YYYY-MM-DDThh:mm:ss>" }`),
-  stamping the revision time from `date "+%Y-%m-%dT%H:%M:%S"`; then set the new `chosen`.
-- Update `rationale`. Keep both options as nodes so the graph shows what was reconsidered.
-- If the title changed materially you may rename the file's `slug` (keep the `NNNN` prefix). If the
-  decision's `version` changes, move the file into the matching `v<version>/` folder. Regenerate.
+A revision is **its own decision** with a decimal id derived from the original (d55), not an edit to
+the old file:
+- Find the latest decision in the lineage (`d47`, or the highest existing `d47.N`) and read it for
+  context. **Never modify the original** — it stays as the record of what was decided then.
+- Create a **new** file for the revision: id `d47.<next>` (`d47.1`, then `d47.2`, …), filed in the
+  revision's own `version` folder as `NNNN-MM-slug.json` — the original's `NNNN` plus a zero-padded
+  revision count (e.g. `decisions/v1.1/0047-01-product-name.json` → `"id": "d47.1"`). Stamp `date`
+  from `date "+%Y-%m-%dT%H:%M:%S"`.
+- Give it its own `options`, `chosen`, `rationale`, `phase`, `version` — a first-class decision. Carry
+  the prior choice over as a `chosen:false` option so the comparison shows what changed, reusing
+  option ids and tradeoff criterion wording verbatim (shared nodes).
+- Link it back with **`supersedes`**: the id(s) it revises (usually the immediately-prior lineage
+  member, e.g. `["d47"]`). The viewer derives the reverse ("Revised by") and tags the prior one
+  *superseded* — no edit to the old file needed. Regenerate.
+
+(Legacy: decisions made before d55 may still carry an inline `history[]` array; the viewer still
+renders it as a timeline, but new revisions use decimal child decisions, not `history[]`.)
 
 ### `plan` — consult the log before a new feature
 Before deciding a new feature or change, weigh it against the existing decisions, then brief the
@@ -196,11 +219,14 @@ The output is a **decision explorer** (master–detail drawer), one screen, no t
     last) and a Version filter appear too, and each item shows its `v…` release tag (d36).
   - **Right detail panel** (shows ONE selected decision at a time, to avoid wall-of-text overwhelm):
     the **chosen option and why first**, then the full **options × tradeoffs** comparison, the
-    decided date, and inline **Depends on / Affects** rows (click to jump to that decision). Revision
-    history shows as a **vertical timeline** (Now → each change, newest-first, with its date and why →
-    Created) inside a collapsed fold marked by a "revised" badge; opening a revision card from Recent
-    jumps to and highlights that exact change (d39). The whole-graph Map view was deliberately dropped (decisions
-    d2 + d5): connections show as the detail panel's dependency rows, not a separate graph.
+    decided date, and inline **Depends on / Affects** rows (click to jump to that decision). A
+    revision and its original link via **Revises / Revised by** rows — the decimal id (e.g. `d47.1`)
+    shows the lineage at a glance, and the superseded original carries a *superseded* tag in the list
+    and detail (d55). Legacy inline `history[]` still shows as a **vertical timeline** (Now → each
+    change, newest-first, with its date and why → Created) inside a collapsed fold marked by a
+    "revised" badge; opening a revision card from Recent jumps to and highlights that exact change
+    (d39). The whole-graph Map view was deliberately dropped (decisions d2 + d5): connections show as
+    the detail panel's dependency rows, not a separate graph.
 
 Report the output path; the user opens it in a browser.
 
@@ -216,7 +242,7 @@ Each `decisions/NNNN-slug.json` is a single decision object (no wrapper array):
 
 ```json
     {
-      "id": "d1",
+      "id": "d1 (revisions branch with a decimal: d1.1, d1.2 — d55)",
       "title": "string",
       "phase": "Requirements | Design | Implementation | Testing | Deployment | Maintenance",
       "category": "string",
@@ -227,9 +253,11 @@ Each `decisions/NNNN-slug.json` is a single decision object (no wrapper array):
       "question": "string",
       "status": "decided | open",
       "built": "boolean (optional; false = decided but not yet built into the app, d43)",
+      "reviewBy": "YYYY-MM-DD (optional; a provisional decision's recheck date — flagged 'Due for review' once it passes, d14)",
       "rationale": "string",
       "dependsOn": ["d0"],
-      "history": [{ "from": "string", "reason": "string", "date": "YYYY-MM-DDThh:mm:ss" }],
+      "supersedes": ["d0 (optional; ids this revises — makes this a decimal-id revision, d55)"],
+      "history": [{ "from": "string", "reason": "string", "date": "YYYY-MM-DDThh:mm:ss (legacy pre-d55 inline revision; new revisions are decimal-id decisions instead)" }],
       "options": [
         {
           "id": "o1a",

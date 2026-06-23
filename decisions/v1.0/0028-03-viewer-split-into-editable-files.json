@@ -1,25 +1,22 @@
 {
-  "id": "d28",
+  "id": "d28.3",
   "title": "Viewer split into editable files",
   "category": "Architecture",
   "phase": "Implementation",
   "type": "technical",
-  "date": "2026-06-20T19:21:07",
   "version": "1.0",
   "question": "Should the viewer stay one big generated file, or split into separate HTML/CSS/JS that read the decision data?",
   "status": "decided",
-  "dependsOn": [
-    "d1",
-    "d2",
-    "d8",
-    "d27"
+  "supersedes": [
+    "d28.2"
   ],
-  "rationale": "Split the viewer into editable index.html / styles.css / app.js with the decision data baked into a generated data.js, so it restyles in plain CSS and still opens by double-click.",
+  "date": "2026-06-22T11:33:30",
+  "rationale": "Made the viewer ONE shared template — each project now symlinks to a single canonical copy, so editing it once updates every project automatically and only the decision data stays per-project (see d35). The split-file, read-JSON-live model is unchanged; what changed is per-project copies → one shared, self-healing link.",
   "options": [
     {
       "id": "o28c",
       "label": "Separate files that read the JSON directly (local server)",
-      "chosen": false,
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "editing & comparing",
@@ -46,7 +43,7 @@
     {
       "id": "o28a",
       "label": "Separate index.html / styles.css / app.js + generated data.js",
-      "chosen": true,
+      "chosen": false,
       "tradeoffs": [
         {
           "criterion": "editing & comparing",

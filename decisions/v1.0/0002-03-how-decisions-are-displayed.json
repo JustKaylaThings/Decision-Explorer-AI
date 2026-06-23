@@ -1,21 +1,22 @@
 {
-  "id": "d2",
+  "id": "d2.3",
   "title": "How decisions are displayed",
   "category": "Visualization",
-  "version": "1.0",
   "phase": "Design",
   "type": "technical",
+  "version": "1.0",
   "question": "How should the saved decisions be shown on screen?",
   "status": "decided",
-  "dependsOn": [
-    "d1"
+  "supersedes": [
+    "d2.2"
   ],
-  "rationale": "Render the decisions as an interactive web of nodes (an HTML knowledge graph), so the tradeoffs shared between decisions link up visibly for analysis.",
+  "date": "2026-06-20T19:36:42",
+  "rationale": "The two-pane list-and-panel read as plain and dated — too close to the original. Switched to an apple.com-style card grid with a focused pop-up per decision, same review goal, more designed.",
   "options": [
     {
       "id": "o2a",
       "label": "Connected web of nodes (interactive graph)",
-      "chosen": true,
+      "chosen": false,
       "tradeoffs": [
         {
           "criterion": "shows connections",
@@ -93,7 +94,7 @@
     {
       "id": "o2e",
       "label": "Card grid + focused pop-up (apple.com-style)",
-      "chosen": false,
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "fits review goal",

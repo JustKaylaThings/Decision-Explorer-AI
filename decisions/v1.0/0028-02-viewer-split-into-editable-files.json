@@ -1,25 +1,22 @@
 {
-  "id": "d28",
+  "id": "d28.2",
   "title": "Viewer split into editable files",
   "category": "Architecture",
   "phase": "Implementation",
   "type": "technical",
-  "date": "2026-06-20T19:21:07",
   "version": "1.0",
   "question": "Should the viewer stay one big generated file, or split into separate HTML/CSS/JS that read the decision data?",
   "status": "decided",
-  "dependsOn": [
-    "d1",
-    "d2",
-    "d8",
-    "d27"
+  "supersedes": [
+    "d28.1"
   ],
-  "rationale": "Split the viewer into editable index.html / styles.css / app.js with the decision data baked into a generated data.js, so it restyles in plain CSS and still opens by double-click.",
+  "date": "2026-06-20T20:35:01",
+  "rationale": "Promoted the refined viewer into the generator's embedded templates so new projects scaffold it by default — no top bar (floating theme/help), hero app-icon lockup, full-width search with a Sort · Filter · View cluster, and an icon view toggle. Scaffold-only-if-missing is unchanged, so existing projects keep their hand-edited files and are updated by copying the newer ones in.",
   "options": [
     {
       "id": "o28c",
       "label": "Separate files that read the JSON directly (local server)",
-      "chosen": false,
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "editing & comparing",
@@ -46,7 +43,7 @@
     {
       "id": "o28a",
       "label": "Separate index.html / styles.css / app.js + generated data.js",
-      "chosen": true,
+      "chosen": false,
       "tradeoffs": [
         {
           "criterion": "editing & comparing",

@@ -70,6 +70,7 @@ let sortMode = 'recent';      // default view: newest-activity first (the "what 
 let filter = '';
 let openOnly = false;
 let builtOnly = false;        // isolate just the decided-but-not-built decisions (d43)
+let dueOnly = false;          // isolate just the decisions whose review-by date has passed (d14)
 let areaFilter = '';
 let verFilter = '';           // selected app version; '' = all
 let catFilter = new Set();    // selected categories (multi-select); empty = all
@@ -81,6 +82,14 @@ const isOpen = d => d.status === 'open';
 // decided decision can still be marked unshipped (d43). Absent or true → built; only built===false
 // marks it unbuilt, so the surfaces below stay dormant for projects that never set it.
 const isUnbuilt = d => d.built === false;
+// Due for review: an optional 'reviewBy' date (YYYY-MM-DD) on a decision you made provisionally
+// ("revisit later"). Most decisions set none and stay calm; a decision is "due" only once that date
+// has arrived (reviewBy <= today). Like built (d43), every surface below stays dormant — invisible —
+// for projects and decisions that never set the field (d14).
+function todayISO(){ const n = new Date(), z = x => String(x).padStart(2,'0');
+  return n.getFullYear() + '-' + z(n.getMonth()+1) + '-' + z(n.getDate()); }
+const reviewByOf = d => (d.reviewBy ? String(d.reviewBy).slice(0,10) : '');
+const isDue = d => { const r = reviewByOf(d); return !!r && r <= todayISO(); };
 const passes = d => matches(d, filter)
   && (!areaFilter || areaOf(d) === areaFilter)
   && (!verFilter || versionOf(d) === verFilter)
@@ -103,6 +112,7 @@ function setHeader(){
   const made = logged + revisions;
   const openN = RAW.filter(isOpen).length;
   const unbuiltN = RAW.filter(isUnbuilt).length;
+  const dueN = RAW.filter(isDue).length;
   const hs = document.getElementById('heroSub');
   if (!hs) return;
   if (!logged){ hs.textContent = 'No decisions logged yet'; return; }
@@ -110,6 +120,7 @@ function setHeader(){
   if (revisions) parts.push(revisions + ' revision' + (revisions===1?'':'s'));
   if (openN) parts.push(openN + ' open');
   if (unbuiltN) parts.push(unbuiltN + ' not built');
+  if (dueN) parts.push(dueN + ' due for review');
   hs.innerHTML = `<span class="hero-count">${made} decision${made===1?'':'s'} made</span><span class="hero-break">${parts.join(' · ')}</span>`;
 }
 
@@ -121,9 +132,11 @@ function cardHTML(d, opts){
   opts = opts || {};
   const p = phaseOf(d), ch = chosenOf(d), pc = phaseColor(p);
   const rev = (!opts.hideRev && d.history && d.history.length) ? '<span class="card-rev">revised</span>' : '';
+  const sup = isSuperseded(d) ? '<span class="card-rev card-superseded">superseded</span>' : '';
   const build = isUnbuilt(d) ? '<span class="card-build">Not built yet</span>' : '';
+  const due = isDue(d) ? '<span class="card-due">Due for review</span>' : '';
   const shown = ('date' in opts) ? opts.date : lastActivity(d);
-  return `<article class="dt-item card${isOpen(d)?' is-open':''}${isUnbuilt(d)?' is-unbuilt':''}" data-id="${esc(d.id)}" tabindex="0">
+  return `<article class="dt-item card${isOpen(d)?' is-open':''}${isUnbuilt(d)?' is-unbuilt':''}${isDue(d)?' is-due':''}" data-id="${esc(d.id)}" tabindex="0">
     <div class="card-head">
       <span class="phase-pill" style="color:${pc};background:${pc}22">${esc(p)}</span>
       <span class="card-id">${esc(d.id)}</span>
@@ -132,23 +145,25 @@ function cardHTML(d, opts){
     <h3 class="card-title">${esc(d.title)}</h3>
     <div class="card-chosen${ch?'':' open'}">${ch?'✓ '+esc(ch.label):'Open — undecided'}</div>
     ${d.rationale?`<p class="card-why">${esc(d.rationale)}</p>`:''}
-    <div class="card-foot">${build}${d.category?`<span class="card-cat">${esc(d.category)}</span>`:''}${versionOf(d)?`<span class="card-ver">v${esc(versionOf(d))}</span>`:''}${rev}</div>
+    <div class="card-foot">${build}${due}${d.category?`<span class="card-cat">${esc(d.category)}</span>`:''}${versionOf(d)?`<span class="card-ver">v${esc(versionOf(d))}</span>`:''}${rev}${sup}</div>
   </article>`;
 }
 function rowHTML(d, opts){
   opts = opts || {};
   const p = phaseOf(d), ch = chosenOf(d), pc = phaseColor(p);
   const rev = (!opts.hideRev && d.history && d.history.length) ? '<span class="row-rev">revised</span>' : '';
+  const sup = isSuperseded(d) ? '<span class="row-rev row-superseded">superseded</span>' : '';
   const build = isUnbuilt(d) ? '<span class="row-build">Not built</span>' : '';
+  const due = isDue(d) ? '<span class="row-due">Due</span>' : '';
   const shown = ('date' in opts) ? opts.date : lastActivity(d);
-  return `<div class="dt-item row${isOpen(d)?' is-open':''}${isUnbuilt(d)?' is-unbuilt':''}" data-id="${esc(d.id)}" tabindex="0">
+  return `<div class="dt-item row${isOpen(d)?' is-open':''}${isUnbuilt(d)?' is-unbuilt':''}${isDue(d)?' is-due':''}" data-id="${esc(d.id)}" tabindex="0">
     <span class="row-dot" style="background:${pc}"></span>
     <span class="row-id">${esc(d.id)}</span>
     <div class="row-main">
       <span class="row-title">${esc(d.title)}</span>
       <span class="row-chosen${ch?'':' open'}">${ch?'✓ '+esc(ch.label):'Open — undecided'}</span>
     </div>
-    ${build}${d.category?`<span class="row-cat">${esc(d.category)}</span>`:''}${versionOf(d)?`<span class="row-ver">v${esc(versionOf(d))}</span>`:''}${rev}
+    ${build}${due}${d.category?`<span class="row-cat">${esc(d.category)}</span>`:''}${versionOf(d)?`<span class="row-ver">v${esc(versionOf(d))}</span>`:''}${rev}${sup}
     ${shown?`<span class="row-date">${cardDate(shown,opts.time)}</span>`:''}
     <span class="row-arrow">›</span>
   </div>`;
@@ -220,11 +235,13 @@ function renderFilters(){
   const pop = document.getElementById('filterPop');
   const openN = RAW.filter(isOpen).length;
   const unbuiltN = RAW.filter(isUnbuilt).length;
+  const dueN = RAW.filter(isDue).length;
   let h = '';
-  if (openN || unbuiltN){
+  if (openN || unbuiltN || dueN){
     h += `<div class="fp-sec"><div class="fp-h">Show</div>`;
     if (openN) h += `<button class="fp-opt${openOnly?' on':''}" data-toggle="open"><span class="fp-check">✓</span>Open decisions only<span class="fp-n">${openN}</span></button>`;
     if (unbuiltN) h += `<button class="fp-opt${builtOnly?' on':''}" data-toggle="built"><span class="fp-check">✓</span>Not built yet only<span class="fp-n">${unbuiltN}</span></button>`;
+    if (dueN) h += `<button class="fp-opt${dueOnly?' on':''}" data-toggle="due"><span class="fp-check">✓</span>Due for review only<span class="fp-n">${dueN}</span></button>`;
     h += `</div>`;
   }
   if (AXIS){
@@ -255,7 +272,7 @@ function renderFilters(){
         }).join('')
       + `</div>`;
   }
-  const active = (openOnly?1:0) + (builtOnly?1:0) + (areaFilter?1:0) + (verFilter?1:0) + catFilter.size;
+  const active = (openOnly?1:0) + (builtOnly?1:0) + (dueOnly?1:0) + (areaFilter?1:0) + (verFilter?1:0) + catFilter.size;
   pop.innerHTML = h || '<div class="fp-sec"><div class="fp-h">No filters available</div></div>';
   const foot = document.getElementById('filterFoot');      // pinned footer: always visible, never scrolls away
   if (foot){
@@ -273,8 +290,8 @@ function buildList(){
   renderFilters();
   if (!RAW.length){ root.innerHTML = '<div class="empty-state">No decisions logged yet.<br>Use <code>/decision-tree add</code>.</div>'; return; }
 
-  // Isolation mode: "open only" and/or "not built only" collapse the list to just those groups.
-  if (openOnly || builtOnly){
+  // Isolation mode: "open only" / "not built only" / "due for review only" collapse the list to just those groups.
+  if (openOnly || builtOnly || dueOnly){
     let only = '';
     if (openOnly){
       const items = RAW.filter(d => isOpen(d) && passes(d)).sort(byRecency);
@@ -284,17 +301,23 @@ function buildList(){
       const items = RAW.filter(d => isUnbuilt(d) && passes(d)).sort(byRecency);
       if (items.length) only += sectionHTML('Not built yet', 'var(--build)', items, 'pinned pinned-build');
     }
-    const labels = [openOnly?'open':'', builtOnly?'unbuilt':''].filter(Boolean).join(' or ');
+    if (dueOnly){
+      const items = RAW.filter(d => isDue(d) && passes(d)).sort(byRecency);
+      if (items.length) only += sectionHTML('Due for review', 'var(--due)', items, 'pinned pinned-due');
+    }
+    const labels = [openOnly?'open':'', builtOnly?'unbuilt':'', dueOnly?'due for review':''].filter(Boolean).join(' or ');
     root.innerHTML = only || '<div class="empty-state">No '+labels+' decisions'+(filter?' match “'+esc(filter)+'”':'')+'.</div>';
     return;
   }
 
-  // Pinned groups sit above the framework so what's unresolved (open, d13) or decided-but-unshipped
-  // (unbuilt, d43) is always in view; each hides when its group is empty.
+  // Pinned groups sit above the framework so what's unresolved (open, d13), decided-but-unshipped
+  // (unbuilt, d43), or due for another look (reviewBy, d14) is always in view; each hides when empty.
   const pinnedOpen = RAW.filter(d => isOpen(d) && passes(d));
   const pinnedUnbuilt = RAW.filter(d => isUnbuilt(d) && passes(d));
+  const pinnedDue = RAW.filter(d => isDue(d) && passes(d));
   let html = (pinnedOpen.length ? sectionHTML('Open', 'var(--neg)', pinnedOpen, 'pinned') : '')
-           + (pinnedUnbuilt.length ? sectionHTML('Not built yet', 'var(--build)', pinnedUnbuilt, 'pinned pinned-build') : '');
+           + (pinnedUnbuilt.length ? sectionHTML('Not built yet', 'var(--build)', pinnedUnbuilt, 'pinned pinned-build') : '')
+           + (pinnedDue.length ? sectionHTML('Due for review', 'var(--due)', pinnedDue, 'pinned pinned-due') : '');
   let body = '';
 
   if (sortMode === 'recent'){
@@ -374,6 +397,11 @@ function tradeoffMatrix(d){
   });
   return h + '</tbody></table></div>';
 }
+// Revision lineage (d55): a revision is its own decision (decimal id, e.g. d47.1) that names the
+// decision it revises in `supersedes`. The reverse ("Revised by") is derived, so the original file
+// is never edited.
+const revisedBy = id => RAW.filter(x => (x.supersedes || []).includes(id)).map(x => x.id).sort();
+const isSuperseded = d => revisedBy(d.id).length > 0;
 function depRows(ids, dir){
   if (!ids.length) return `<div class="dep-empty">${dir==='up'?'No upstream dependencies':'No downstream decisions'}</div>`;
   return ids.map(id => {
@@ -417,6 +445,7 @@ function downRows(nodes){
 function sheetHTML(d){
   const ch = chosenOf(d), p = phaseOf(d);
   const upstream = d.dependsOn || [], downTree = downstreamTree(d.id), downTotal = treeTotal(downTree);
+  const supersedes = d.supersedes || [], supersededBy = revisedBy(d.id);
   const revised = d.history && d.history.length;
   const meta = [d.category, (AXIS && d.area) ? d.area : '', d.version ? 'v'+d.version : '', d.date ? fmtDate(d.date,true) : '']
     .filter(Boolean).map(m => `<span class="d-meta">${esc(m)}</span>`).join('');
@@ -427,6 +456,8 @@ function sheetHTML(d){
     ${meta}
     ${d.status==='open'?'<span class="tag open">open</span>':''}
     ${d.built===false?'<span class="tag unbuilt">not built yet</span>':''}
+    ${isDue(d)?'<span class="tag due">due for review</span>':''}
+    ${supersededBy.length?'<span class="tag superseded">superseded</span>':''}
     ${revised?'<span class="tag revised" data-open-fold="history">revised</span>':''}</div>`;
   h += `<h2 class="d-title">${esc(d.title)}</h2>`;
   if (d.question) h += `<p class="d-question">${esc(d.question)}</p>`;
@@ -437,10 +468,16 @@ function sheetHTML(d){
       <div class="answer-val">${ch?esc(ch.label):'Still open — no option chosen yet'}</div>
       ${ch&&d.built===false?'<div class="answer-build">Decided, but not yet built into the app.</div>':''}
     </div></div>`;
+  // Review-by note (d14): shows the scheduled date when set. Subtle while it's in the future,
+  // escalated to "Due for review" once the date has passed. Nothing renders when no date is set.
+  if (reviewByOf(d))
+    h += `<div class="review-note${isDue(d)?' due':''}">${isDue(d)?'⟳ Due for review — set on '+fmtDate(reviewByOf(d)):'⟳ Review by '+fmtDate(reviewByOf(d))}</div>`;
   if (d.rationale)
     h += `<section class="block"><div class="eyebrow">Why</div><p class="why-text">${esc(d.rationale)}</p></section>`;
-  if (downTotal || upstream.length){
+  if (downTotal || upstream.length || supersedes.length || supersededBy.length){
     h += `<section class="block impact">`;
+    if (supersedes.length)   h += `<div class="imp-grp"><div class="eyebrow">Revises</div>${depRows(supersedes,'up')}</div>`;
+    if (supersededBy.length) h += `<div class="imp-grp"><div class="eyebrow">Revised by</div>${depRows(supersededBy,'down')}</div>`;
     if (downTotal) h += `<div class="imp-grp"><div class="eyebrow">Affects${downTotal>1?`<span class="eyebrow-n">${downTotal} downstream</span>`:''}</div>${downRows(downTree)}</div>`;
     if (upstream.length)    h += `<div class="imp-grp"><div class="eyebrow">Depends on</div>${depRows(upstream,'up')}</div>`;
     h += `</section>`;
@@ -528,13 +565,14 @@ filterDrawer.addEventListener('click', e => {
   if (opt){
     if (opt.dataset.toggle === 'open') openOnly = !openOnly;
     else if (opt.dataset.toggle === 'built') builtOnly = !builtOnly;
+    else if (opt.dataset.toggle === 'due') dueOnly = !dueOnly;
     else if (opt.hasAttribute('data-area')) areaFilter = opt.dataset.area;
     else if (opt.hasAttribute('data-ver')) verFilter = opt.dataset.ver;
     else if (opt.hasAttribute('data-cat')){ const c = opt.dataset.cat; catFilter.has(c) ? catFilter.delete(c) : catFilter.add(c); }
     buildList();  // re-renders the drawer (renderFilters) so checks/badge update; stays open
     return;
   }
-  if (e.target.closest('#clearFilters')){ openOnly = false; builtOnly = false; areaFilter = ''; verFilter = ''; catFilter.clear(); buildList(); }
+  if (e.target.closest('#clearFilters')){ openOnly = false; builtOnly = false; dueOnly = false; areaFilter = ''; verFilter = ''; catFilter.clear(); buildList(); }
 });
 // Sort dropdown: a single button that opens a popover menu of grouping modes (d30 revised).
 // The mode list is dynamic — "By <axis>" and "By version" appear only when they apply.

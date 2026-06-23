@@ -1,6 +1,6 @@
 {
   "id": "d47",
-  "title": "Product name: Decision Explorer AI",
+  "title": "Product name: Decision Explorer",
   "category": "Process",
   "phase": "Requirements",
   "type": "general",
@@ -11,41 +11,12 @@
   "dependsOn": [
     "d28"
   ],
-  "rationale": "Name the public product 'Decision Explorer AI' - which unifies the name with the viewer and signals the tool is AI-native (Claude-driven) - while keeping the /decision-tree command, the skills/decision-tree install path, and the project folder unchanged, since renaming those is risky and user-facing in a different way. The viewer title/brand/footer, generate.py embedded copy, SKILL.md, README, netlify.toml and _project.json all now say Decision Explorer AI.",
-  "history": [
-    {
-      "from": "Decision Explorer",
-      "reason": "Added 'AI' so the public name signals the tool is AI-native / Claude-driven; same low-risk scope as the original rename (command, install path and folder untouched).",
-      "date": "2026-06-23T09:43:07"
-    }
-  ],
+  "rationale": "Name the public product 'Decision Explorer' to unify it with the viewer (already titled Decision Explorer), while keeping the /decision-tree command, the skills/decision-tree install path and the project folder unchanged, since renaming those is risky and user-facing in a different way.",
   "options": [
-    {
-      "id": "o47d",
-      "label": "Rebrand the product to 'Decision Explorer AI'",
-      "chosen": true,
-      "tradeoffs": [
-        {
-          "criterion": "positioning",
-          "sentiment": "+",
-          "note": "the 'AI' suffix signals the tool is AI-native / Claude-driven, matching how it's actually used"
-        },
-        {
-          "criterion": "name consistency",
-          "sentiment": "+",
-          "note": "viewer title, brand, footer and docs all updated together, so the app and product share one name"
-        },
-        {
-          "criterion": "risk",
-          "sentiment": "+",
-          "note": "command, install path and folder untouched; only displayed name and docs change"
-        }
-      ]
-    },
     {
       "id": "o47a",
       "label": "Rebrand the product to 'Decision Explorer'",
-      "chosen": false,
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "name consistency",

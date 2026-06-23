@@ -1,21 +1,21 @@
 {
-  "id": "d2",
+  "id": "d2.2",
   "title": "How decisions are displayed",
   "category": "Visualization",
-  "version": "1.0",
   "phase": "Design",
   "type": "technical",
+  "version": "1.0",
   "question": "How should the saved decisions be shown on screen?",
   "status": "decided",
-  "dependsOn": [
-    "d1"
+  "supersedes": [
+    "d2.1"
   ],
-  "rationale": "Render the decisions as an interactive web of nodes (an HTML knowledge graph), so the tradeoffs shared between decisions link up visibly for analysis.",
+  "rationale": "The grouped list showed every decision in full at once and felt text-heavy and overwhelming. Switched to a list-plus-panel view that shows one decision at a time.",
   "options": [
     {
       "id": "o2a",
       "label": "Connected web of nodes (interactive graph)",
-      "chosen": true,
+      "chosen": false,
       "tradeoffs": [
         {
           "criterion": "shows connections",
@@ -71,7 +71,7 @@
     {
       "id": "o2d",
       "label": "List plus detail panel (one decision at a time)",
-      "chosen": false,
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "fits review goal",

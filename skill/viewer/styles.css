@@ -4,8 +4,8 @@
   --muted:#98989d; --faint:#6e6e73; --line:#2a2a2c; --line2:#3a3a3c;
   --accent:#3bc4b6; --accent-soft:rgba(59,196,182,.14); --focus:rgba(59,196,182,.42);
   --nav-blur:rgba(0,0,0,.6);
-  --pos:#54c98a; --neg:#f0746b; --neu:#dab35f; --build:#7e8bdc;
-  --pos-soft:rgba(84,201,138,.12); --neg-soft:rgba(240,116,107,.12); --build-soft:rgba(126,139,220,.13);
+  --pos:#54c98a; --neg:#f0746b; --neu:#dab35f; --build:#7e8bdc; --due:#e0915a;
+  --pos-soft:rgba(84,201,138,.12); --neg-soft:rgba(240,116,107,.12); --build-soft:rgba(126,139,220,.13); --due-soft:rgba(224,145,90,.14);
   --shadow-sm:0 1px 2px rgba(0,0,0,.4); --shadow-card:0 1px 3px rgba(0,0,0,.3);
   --shadow-hover:0 14px 36px rgba(0,0,0,.55); --shadow-modal:0 30px 90px rgba(0,0,0,.65);
   --radius:14px; --radius-lg:20px; --radius-xl:26px;
@@ -15,8 +15,8 @@
   --muted:#6e6e73; --faint:#86868b; --line:#e6e6e9; --line2:#d2d2d7;
   --accent:#0d8478; --accent-soft:rgba(13,132,120,.09); --focus:rgba(13,132,120,.28);
   --nav-blur:rgba(251,251,253,.72);
-  --pos:#1f9e57; --neg:#d1453b; --neu:#9a7320; --build:#5159c0;
-  --pos-soft:rgba(31,158,87,.08); --neg-soft:rgba(209,69,59,.07); --build-soft:rgba(81,89,192,.08);
+  --pos:#1f9e57; --neg:#d1453b; --neu:#9a7320; --build:#5159c0; --due:#bf6a26;
+  --pos-soft:rgba(31,158,87,.08); --neg-soft:rgba(209,69,59,.07); --build-soft:rgba(81,89,192,.08); --due-soft:rgba(191,106,38,.09);
   --shadow-sm:0 1px 2px rgba(0,0,0,.07); --shadow-card:0 2px 12px rgba(0,0,0,.05);
   --shadow-hover:0 14px 34px rgba(0,0,0,.1); --shadow-modal:0 30px 90px rgba(0,0,0,.2);
 }
@@ -173,6 +173,7 @@ main { max-width:1160px; margin:0 auto; padding:0 32px 72px; }
 .phase-sec { margin-top:60px; }
 .phase-sec.pinned .sec-name { color:var(--neg); }
 .phase-sec.pinned-build .sec-name { color:var(--build); }
+.phase-sec.pinned-due .sec-name { color:var(--due); }
 .sec-head { display:flex; align-items:center; gap:11px; margin-bottom:24px; padding-bottom:15px;
             border-bottom:1px solid var(--line); cursor:pointer; user-select:none; }
 .sec-head:focus-visible { outline:none; box-shadow:0 0 0 3px var(--focus); border-radius:8px; }
@@ -207,6 +208,7 @@ main { max-width:1160px; margin:0 auto; padding:0 32px 72px; }
 .card-rev { color:var(--neu); border-color:var(--neu); }
 .card-ver { font-size:11px; padding:3px 9px; border-radius:980px; color:var(--accent); border:1px solid var(--accent); background:var(--accent-soft); font-variant-numeric:tabular-nums; }
 .card-build { font-size:11px; padding:3px 9px; border-radius:980px; color:var(--build); border:1px solid var(--build); background:var(--build-soft); font-weight:500; }
+.card-due { font-size:11px; padding:3px 9px; border-radius:980px; color:var(--due); border:1px solid var(--due); background:var(--due-soft); font-weight:500; }
 
 /* Revision shown as its own slim card in the Recent stream (d38) — reads as secondary to a full decision card. */
 .revcard { border-style:dashed; box-shadow:none; }
@@ -237,6 +239,7 @@ main { max-width:1160px; margin:0 auto; padding:0 32px 72px; }
 .row-rev { color:var(--neu); border:1px solid var(--neu); }
 .row-ver { font-size:11px; padding:2px 9px; border-radius:980px; flex:none; color:var(--accent); border:1px solid var(--accent); background:var(--accent-soft); font-variant-numeric:tabular-nums; }
 .row-build { font-size:11px; padding:2px 9px; border-radius:980px; flex:none; color:var(--build); border:1px solid var(--build); background:var(--build-soft); }
+.row-due { font-size:11px; padding:2px 9px; border-radius:980px; flex:none; color:var(--due); border:1px solid var(--due); background:var(--due-soft); }
 .row-date { font-size:12px; color:var(--faint); flex:none; font-variant-numeric:tabular-nums; min-width:86px; text-align:right; }
 .row-arrow { color:var(--faint); font-size:18px; line-height:1; flex:none; }
 @media (max-width:680px){ .row-cat, .row-rev, .row-ver, .row-date { display:none; } }
@@ -272,7 +275,9 @@ code { background:var(--card); padding:2px 7px; border-radius:6px; font-size:13p
 .tag { font-size:10px; padding:2px 9px; border-radius:980px; border:1px solid var(--line2); }
 .tag.open { color:var(--neg); border-color:var(--neg); }
 .tag.revised { color:var(--neu); border-color:var(--neu); cursor:pointer; }
+.tag.superseded { color:var(--neu); border-color:var(--neu); }
 .tag.unbuilt { color:var(--build); border-color:var(--build); }
+.tag.due { color:var(--due); border-color:var(--due); }
 
 .answer { display:flex; align-items:flex-start; gap:14px; padding:17px 20px; margin:0 0 36px; background:var(--pos-soft);
           border:1px solid color-mix(in srgb, var(--pos) 24%, transparent); border-radius:var(--radius-lg); }
@@ -285,6 +290,9 @@ code { background:var(--card); padding:2px 7px; border-radius:6px; font-size:13p
 .answer.unbuilt { background:var(--build-soft); border-color:color-mix(in srgb, var(--build) 24%, transparent); }
 .answer.unbuilt .answer-mark { background:var(--build); }
 .answer-build { font-size:13px; color:var(--build); font-weight:500; margin-top:5px; }
+.review-note { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:500; color:var(--muted);
+               margin:0 0 30px; padding:6px 13px; border-radius:980px; border:1px solid var(--line2); background:var(--surface); }
+.review-note.due { color:var(--due); border-color:color-mix(in srgb, var(--due) 45%, transparent); background:var(--due-soft); font-weight:600; }
 .block { margin:0 0 30px; }
 .eyebrow { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin-bottom:12px; }
 .eyebrow-n { font-weight:500; text-transform:none; letter-spacing:0; color:var(--faint); margin-left:5px; }

@@ -4,15 +4,45 @@
   "category": "Visualization",
   "phase": "Maintenance",
   "type": "technical",
-  "date": "2026-06-20T16:24:40",
-  "version": "1.0",
+  "date": "2026-06-23T10:51:50",
+  "version": "1.1",
   "question": "Should the viewer flag decisions that may be stale and due for review?",
-  "status": "open",
+  "status": "decided",
   "dependsOn": [
-    "d2"
+    "d2",
+    "d15",
+    "d43"
   ],
-  "rationale": "Parked for now — identified as worth deciding, but not chosen. Leaning toward no signal until staleness is a felt need: age-based hints are noisy and a review-by date is overhead.",
+  "rationale": "Add an optional 'reviewBy' date: most decisions set none and stay calm, but a provisional one ('revisit later') can carry a date the viewer flags when it passes. Opt-in serves those few at no cost to the rest, and d15's supersede path still covers staleness you've already noticed.",
   "options": [
+    {
+      "id": "o14d",
+      "label": "Optional review-by date",
+      "chosen": true,
+      "note": "An optional 'reviewBy' field, in the grammar of built (d43) / version (d36): invisible until set, so it only ever applies to decisions you deliberately mark as provisional.",
+      "tradeoffs": [
+        {
+          "criterion": "accuracy",
+          "sentiment": "+",
+          "note": "flags only decisions you marked, exactly when their date passes — no false alarms"
+        },
+        {
+          "criterion": "stays calm",
+          "sentiment": "+",
+          "note": "invisible by default; nothing shown for the decisions you don't mark"
+        },
+        {
+          "criterion": "ongoing effort",
+          "sentiment": "~",
+          "note": "a field to set, but only on the few provisional decisions — not every one (the o14b cost, scoped down)"
+        },
+        {
+          "criterion": "build effort",
+          "sentiment": "-",
+          "note": "needs new viewer support to surface the flag when a date is due"
+        }
+      ]
+    },
     {
       "id": "o14a",
       "label": "Age-based hint",

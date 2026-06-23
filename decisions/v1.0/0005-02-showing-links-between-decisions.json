@@ -1,21 +1,22 @@
 {
-  "id": "d5",
+  "id": "d5.2",
   "title": "Showing links between decisions",
   "category": "Visualization",
-  "version": "1.0",
   "phase": "Design",
   "type": "technical",
+  "version": "1.0",
   "question": "How should the way one decision connects to another be shown?",
   "status": "decided",
-  "dependsOn": [
-    "d2"
+  "supersedes": [
+    "d5.1"
   ],
-  "rationale": "Show connections two ways — inline links inside each decision plus a separate optional map of the whole web — so reviewing stays central while the big picture is still available.",
+  "date": "2026-06-20T16:14:05",
+  "rationale": "The cascade job — seeing what revisiting a decision threatens — needs the full downstream chain, not just one hop. Extended 'Affects' to walk transitively (downstream only), kept it inline with no separate map.",
   "options": [
     {
       "id": "o5a",
-      "label": "Inline links, with transitive downstream impact",
-      "chosen": false,
+      "label": "Inline links + full downstream impact (flat list)",
+      "chosen": true,
       "tradeoffs": [
         {
           "criterion": "fits review goal",
@@ -54,7 +55,7 @@
     {
       "id": "o5c",
       "label": "Both",
-      "chosen": true,
+      "chosen": false,
       "tradeoffs": [
         {
           "criterion": "fits review goal",
