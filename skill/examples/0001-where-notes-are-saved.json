@@ -1,0 +1,33 @@
+{
+  "id": "d1",
+  "title": "Where notes are saved",
+  "category": "Architecture",
+  "phase": "Design",
+  "type": "technical",
+  "date": "2026-06-22T10:15:00",
+  "question": "Where should the app keep a user's notes?",
+  "status": "decided",
+  "rationale": "A local file on the device is the fastest to build and works offline from day one, which is all an early version needs. Syncing and accounts can come later (see the next decisions) without changing this foundation.",
+  "options": [
+    {
+      "id": "o1a",
+      "label": "A file on the device",
+      "chosen": true,
+      "tradeoffs": [
+        { "criterion": "works offline", "sentiment": "+", "note": "no network needed" },
+        { "criterion": "build effort", "sentiment": "+", "note": "nothing to set up — just read and write a file" },
+        { "criterion": "syncs across devices", "sentiment": "-", "note": "stays on one device until we add sync" }
+      ]
+    },
+    {
+      "id": "o1b",
+      "label": "A cloud database",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "works offline", "sentiment": "-", "note": "needs a connection to read or write" },
+        { "criterion": "build effort", "sentiment": "-", "note": "a server, accounts, and hosting to run" },
+        { "criterion": "syncs across devices", "sentiment": "+", "note": "same notes everywhere automatically" }
+      ]
+    }
+  ]
+}

@@ -51,10 +51,15 @@ skill/                     the installable skill
 ├── auditing.md            the "audit" flow (back-fill decisions from an existing codebase)
 ├── viewer/                the decision explorer (app.js, styles.css, index.html)
 ├── hooks/                 reconcile-decisions.py — optional Stop-hook backstop
+├── examples/              three sample decisions the skill scaffolds into a fresh project
 └── settings.example.json  hook wiring to merge into a project's .claude/settings.json
-decisions/                 this project's own decision log — a live example (the JSON source;
-                           build the viewer from it with the generator, then open — see below)
+decisions/                 three example decisions (a decided one, a decided-but-not-built one,
+                           and an open one) — what a fresh log looks like; edit or delete them
 ```
+
+> **Want the full, real log?** This repo's `decisions/` ships only the three examples. The
+> author's complete decision log for Decision Explorer AI lives on the [`live-log`](../../tree/live-log)
+> branch and is what the [live demo](https://decision-explorer.netlify.app/) serves.
 
 > The `decisions/` folder holds the **source** (one JSON file per decision). The viewer
 > (`index.html` / `app.js` / `styles.css` / `graph.html`) is **generated** from it, so it isn't

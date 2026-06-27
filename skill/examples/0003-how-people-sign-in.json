@@ -1,0 +1,44 @@
+{
+  "id": "d3",
+  "title": "How people sign in",
+  "category": "Architecture",
+  "phase": "Requirements",
+  "type": "technical",
+  "date": "2026-06-26T09:00:00",
+  "question": "When we add accounts, how should people sign in?",
+  "status": "open",
+  "dependsOn": ["d2"],
+  "rationale": "Still open — we're weighing how much friction is worth it. No option chosen yet; this is what an undecided decision looks like in the log.",
+  "options": [
+    {
+      "id": "o3a",
+      "label": "Email and a link (no password)",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "ease for the user", "sentiment": "+", "note": "nothing to remember; click a link in their inbox" },
+        { "criterion": "build effort", "sentiment": "~", "note": "we have to send and check emails" },
+        { "criterion": "works offline", "sentiment": "-", "note": "signing in needs a connection" }
+      ]
+    },
+    {
+      "id": "o3b",
+      "label": "Email and a password",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "ease for the user", "sentiment": "-", "note": "one more password to remember" },
+        { "criterion": "build effort", "sentiment": "-", "note": "passwords, resets, and keeping them safe" },
+        { "criterion": "works offline", "sentiment": "~", "note": "can stay signed in after the first time" }
+      ]
+    },
+    {
+      "id": "o3c",
+      "label": "Sign in with Google or Apple",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "ease for the user", "sentiment": "+", "note": "one tap with an account they already have" },
+        { "criterion": "build effort", "sentiment": "~", "note": "wiring up each provider, but they handle the hard parts" },
+        { "criterion": "works offline", "sentiment": "-", "note": "signing in needs a connection" }
+      ]
+    }
+  ]
+}

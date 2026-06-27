@@ -40,10 +40,27 @@ walks `decisions/` (root + version sub-folders) for `NNNN-*.json` and records ea
 relative to `decisions/` in the manifest, so an empty project is just `_project.json` with no
 decision files.
 
+**First run in a fresh project — scaffold the examples.** When the skill is invoked in a project
+that has **no decision files yet** (`decisions/` is missing or holds no `NNNN-*.json`), seed it from
+the three sample decisions shipped with the skill at `examples/` (relative to this skill's own
+folder, e.g. `.claude/skills/decision-tree/examples/`). Copy `examples/*.json` (the three
+`NNNN-*.json` samples **and** `_project.json`) into the project's `decisions/`, then regenerate so
+the user immediately has a working viewer to learn the format from. The three samples deliberately
+show the states a reader needs to recognize: a plain **decided** decision (`d1`), a **decided but
+not built yet** decision (`d2`, `"built": false`), and an **open** decision (`d3`, `status: "open"`,
+no chosen option) — plus a `dependsOn` chain so the dependency links are visible. Tell the user these
+are **samples to edit or delete** once they log their own (`_project.json`'s `"Example Project"` is a
+placeholder to rename). Skip the scaffold if the project already has any decision file.
+
 ## Subcommands
 
 The argument after `/decision-tree` (or its shorthand alias `/decide`) selects the action.
 With no argument, infer intent.
+
+### `init` — scaffold a fresh project
+Seed `decisions/` from the skill's `examples/` (see "First run in a fresh project" above), then
+regenerate and point the user at `decisions/graph.html`. Use this when starting from scratch, or run
+it implicitly on the first `add`/`view` in a project that has no decision files yet.
 
 ### `add` — log a new decision
 1. Gather, asking only for what's missing (write every field to be **scanned**, not read — see Writing style):

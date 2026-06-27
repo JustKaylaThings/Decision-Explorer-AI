@@ -1,0 +1,35 @@
+{
+  "id": "d2",
+  "title": "Syncing across devices",
+  "category": "Architecture",
+  "phase": "Design",
+  "type": "technical",
+  "date": "2026-06-24T14:30:00",
+  "question": "How should a user's notes get from one device to another?",
+  "status": "decided",
+  "built": false,
+  "dependsOn": ["d1"],
+  "rationale": "Syncing through a shared folder (like the one the user already pays for) lets us add multi-device support without running our own server or accounts. It's decided, but not built yet — the first version still saves only to the local file from d1.",
+  "options": [
+    {
+      "id": "o2a",
+      "label": "Sync through the user's own cloud folder",
+      "chosen": true,
+      "tradeoffs": [
+        { "criterion": "build effort", "sentiment": "~", "note": "read and write one shared folder; no server of our own" },
+        { "criterion": "ongoing cost", "sentiment": "+", "note": "uses storage the user already has" },
+        { "criterion": "control", "sentiment": "-", "note": "we rely on whichever folder service they use" }
+      ]
+    },
+    {
+      "id": "o2b",
+      "label": "Run our own sync server",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "build effort", "sentiment": "-", "note": "a server and accounts to build and maintain" },
+        { "criterion": "ongoing cost", "sentiment": "-", "note": "we pay to host it" },
+        { "criterion": "control", "sentiment": "+", "note": "we own the whole experience" }
+      ]
+    }
+  ]
+}
