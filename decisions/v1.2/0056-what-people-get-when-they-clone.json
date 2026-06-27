@@ -1,0 +1,45 @@
+{
+  "id": "d56",
+  "title": "What people get when they clone",
+  "category": "Process",
+  "phase": "Deployment",
+  "type": "technical",
+  "version": "1.2",
+  "date": "2026-06-26T21:18:54",
+  "question": "When someone gets this repo to use the tool, should they inherit the author's full decision log, or a small set of examples?",
+  "status": "decided",
+  "dependsOn": ["d50", "d42"],
+  "rationale": "Cloning the repo handed people the author's own 67 decisions — so it read as a finished project, not a starting point they could make their own. Shipping three small examples instead (one decided, one decided-but-not-built, one open) shows the format and every state a reader needs to recognise, without making anyone gut a log first. The author's real log isn't lost: it moves to its own 'live-log' branch, which is what the public demo serves — so the showcase stays rich while the default branch is a clean template.",
+  "options": [
+    {
+      "id": "o56a",
+      "label": "Ship the full real log (what it was doing)",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "clear starting point", "sentiment": "-", "note": "newcomers must delete 67 of someone else's decisions before their own" },
+        { "criterion": "shows a rich example", "sentiment": "+", "note": "a real, deep log to learn from" },
+        { "criterion": "keeps the demo rich", "sentiment": "+", "note": "the demo is just this folder" }
+      ]
+    },
+    {
+      "id": "o56b",
+      "label": "Ship a few examples; real log on its own branch",
+      "chosen": true,
+      "tradeoffs": [
+        { "criterion": "clear starting point", "sentiment": "+", "note": "three samples to read, then edit or delete" },
+        { "criterion": "shows a rich example", "sentiment": "~", "note": "examples are small, but the full log is one branch away" },
+        { "criterion": "keeps the demo rich", "sentiment": "+", "note": "demo serves the live-log branch, which keeps the full log" }
+      ]
+    },
+    {
+      "id": "o56c",
+      "label": "Ship an empty decisions/ folder",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "clear starting point", "sentiment": "~", "note": "nothing to delete, but also nothing to copy" },
+        { "criterion": "shows a rich example", "sentiment": "-", "note": "no format or states to learn from at all" },
+        { "criterion": "keeps the demo rich", "sentiment": "-", "note": "the demo would be empty" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "d57",
+  "title": "How a fresh project gets the examples",
+  "category": "Process",
+  "phase": "Implementation",
+  "type": "technical",
+  "version": "1.2",
+  "date": "2026-06-26T21:19:30",
+  "question": "How should a new project actually receive the example decisions — by cloning this repo, or by the skill creating them?",
+  "status": "decided",
+  "dependsOn": ["d56"],
+  "rationale": "Installing is already 'copy the skill into Claude Code and run it in your own project' — not 'clone this repo'. So the skill scaffolds the three examples the first time it runs in a project with no decisions yet, and tells the user they're samples to edit or delete. The cloner never inherits the skill source, git history, or demo wiring they'd have to strip out, and it fits the choice to keep the real log on its own branch (d56) — a half-template default branch would only confuse.",
+  "options": [
+    {
+      "id": "o57a",
+      "label": "Clone this repo as the template",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "build effort", "sentiment": "+", "note": "no new code — just trim the folder" },
+        { "criterion": "clean for the user", "sentiment": "-", "note": "inherits skill source, history, and demo config to gut by hand" },
+        { "criterion": "fits how it's installed", "sentiment": "-", "note": "install is 'copy the skill', not 'clone the repo'" }
+      ]
+    },
+    {
+      "id": "o57b",
+      "label": "Skill scaffolds the examples on first run",
+      "chosen": true,
+      "tradeoffs": [
+        { "criterion": "build effort", "sentiment": "~", "note": "a small first-run step in the skill that copies the samples in" },
+        { "criterion": "clean for the user", "sentiment": "+", "note": "examples land in their own project; nothing extra inherited" },
+        { "criterion": "fits how it's installed", "sentiment": "+", "note": "matches the existing 'copy the skill, run it in your project' model" }
+      ]
+    },
+    {
+      "id": "o57c",
+      "label": "Do both",
+      "chosen": false,
+      "tradeoffs": [
+        { "criterion": "build effort", "sentiment": "-", "note": "two copies of the samples to keep in step with the schema" },
+        { "criterion": "clean for the user", "sentiment": "~", "note": "covers either entry point, but more to maintain" },
+        { "criterion": "fits how it's installed", "sentiment": "~", "note": "supports cloning too, which the install model doesn't use" }
+      ]
+    }
+  ]
+}
