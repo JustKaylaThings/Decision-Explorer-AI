@@ -1,0 +1,48 @@
+{
+  "id": "d58",
+  "title": "Starter questions for each stage",
+  "phase": "Design",
+  "category": "Workflow",
+  "version": "1.2",
+  "date": "2026-06-26T21:33:04",
+  "type": "general",
+  "question": "How does the tool help people decide what to log at each stage, without driving them?",
+  "status": "decided",
+  "built": false,
+  "rationale": "Ship a curated set of starter questions for each lifecycle stage, surfaced through the skill; answering one captures a normal decision. It guides what to decide without a wizard — nothing is written until the user confirms, so the tool stays capture-only.",
+  "dependsOn": ["d6", "d24", "d57"],
+  "options": [
+    {
+      "id": "o58a",
+      "label": "Curated starter questions, surfaced in the skill",
+      "chosen": true,
+      "note": "A fixed set of ~3–6 common decisions per SDLC phase. The skill offers them when you work a stage; answering one runs normal confirm-at-the-moment capture.",
+      "tradeoffs": [
+        { "criterion": "fits the goal", "sentiment": "+", "note": "turns the log into a 'what to decide next' system, the original ask" },
+        { "criterion": "stays capture-only", "sentiment": "+", "note": "questions are prompts; nothing is written until the user answers and confirms" },
+        { "criterion": "predictable to review", "sentiment": "+", "note": "same curated set for everyone, so it can be read and improved" },
+        { "criterion": "build effort", "sentiment": "-", "note": "must curate a good question set for each phase" }
+      ]
+    },
+    {
+      "id": "o58b",
+      "label": "Show suggested questions in the viewer only",
+      "note": "Empty phases display their starter questions as greyed, un-actionable reminders.",
+      "tradeoffs": [
+        { "criterion": "stays capture-only", "sentiment": "+", "note": "zero capture change — a pure review cue" },
+        { "criterion": "build effort", "sentiment": "+", "note": "small viewer-only change" },
+        { "criterion": "fits the goal", "sentiment": "-", "note": "shows the gap but doesn't help you actually decide" }
+      ]
+    },
+    {
+      "id": "o58c",
+      "label": "AI generates the questions per project",
+      "note": "The skill invents starter questions tailored to what you're building, each time.",
+      "tradeoffs": [
+        { "criterion": "fits the goal", "sentiment": "~", "note": "tailored to your app, but less of a shared system" },
+        { "criterion": "predictable to review", "sentiment": "-", "note": "different every run, nothing fixed to read or refine" },
+        { "criterion": "stays capture-only", "sentiment": "+", "note": "still only prompts until you confirm" }
+      ]
+    }
+  ]
+}
